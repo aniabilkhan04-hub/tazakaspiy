@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Модерация — Эко-Атырау</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <div class="brand">
+      <span class="brand__mark">🛠</span>
+      <div class="brand__text">
+        <span class="brand__title">Модерация заявок</span>
+        <span class="brand__subtitle">Эко-Атырау</span>
+      </div>
+    </div>
+    <nav class="topbar__nav">
+      <a href="index.html" class="btn btn--ghost">← Назад на карту</a>
+    </nav>
+  </div>
+  <svg class="river-divider" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,20 C240,40 480,0 720,20 C960,40 1200,0 1440,20 L1440,40 L0,40 Z"></path>
+  </svg>
+</header>
+
+<main class="admin-layout">
+
+  <section id="login-card" class="card login-card">
+    <h2 class="card__title">Вход администратора</h2>
+    <p class="card__hint">Введите пароль модерации, указанный в файле .env (ADMIN_PASSWORD).</p>
+    <input id="password-input" type="password" placeholder="Пароль" />
+    <button id="login-btn" class="btn btn--primary">Войти</button>
+    <p id="login-error" class="error-text"></p>
+  </section>
+
+  <section id="pending-section" class="pending-section" hidden>
+    <div class="pending-header">
+      <h2>Заявки на модерации</h2>
+      <button id="refresh-btn" class="btn btn--ghost">Обновить</button>
+    </div>
+    <p id="admin-error" class="error-text"></p>
+    <div id="pending-list" class="pending-list"></div>
+  </section>
+
+</main>
+
+<script src="js/admin.js"></script>
+</body>
+</html>

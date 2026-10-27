@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Эко-Атырау — карта эко-инициатив города</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <div class="brand">
+      <span class="brand__mark">🌊</span>
+      <div class="brand__text">
+        <span class="brand__title">Эко-Атырау</span>
+        <span class="brand__subtitle">карта городских эко-инициатив</span>
+      </div>
+    </div>
+    <nav class="topbar__nav">
+      <a href="#" id="bot-link" class="btn btn--primary" target="_blank" rel="noopener">Открыть бота для волонтёров</a>
+      <a href="admin.html" class="btn btn--ghost">Модерация</a>
+    </nav>
+  </div>
+  <svg class="river-divider" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,20 C240,40 480,0 720,20 C960,40 1200,0 1440,20 L1440,40 L0,40 Z"></path>
+  </svg>
+</header>
+
+<main class="layout">
+
+  <section class="map-panel">
+    <div class="map-toolbar">
+      <button class="filter-chip is-active" data-type="">Все точки</button>
+      <button class="filter-chip" data-type="dump">🗑️ Свалки</button>
+      <button class="filter-chip" data-type="cleaned">✅ Убрано</button>
+      <button class="filter-chip" data-type="recycling">♻️ Переработка</button>
+      <button class="filter-chip" data-type="tree">🌳 Посадка деревьев</button>
+      <button class="filter-chip" data-type="shop">🛍 Эко-магазины</button>
+    </div>
+    <div id="map"></div>
+  </section>
+
+  <aside class="sidebar">
+    <div class="card">
+      <h2 class="card__title">🏆 Рейтинг волонтёров</h2>
+      <p class="card__hint">Очки начисляются за одобренные заявки «Я убрал мусор» в Telegram-боте.</p>
+      <ol id="leaderboard" class="leaderboard">
+        <li class="leaderboard__empty">Загрузка…</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2 class="card__title">Как это работает</h2>
+      <ol class="howto">
+        <li>Волонтёр открывает Telegram-бота и жмёт кнопку действия.</li>
+        <li>Присылает фото и геолокацию — без ввода текста руками.</li>
+        <li>Заявка попадает на модерацию администратору.</li>
+        <li>После одобрения точка появляется на карте, а за уборку мусора начисляется рейтинг.</li>
+      </ol>
+    </div>
+  </aside>
+
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="js/app.js"></script>
+</body>
+</html>
