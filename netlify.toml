@@ -2,7 +2,7 @@
 # Flask-сервер и Telegram-бот на Netlify запустить нельзя — они должны работать
 # на другом хостинге (см. README, раздел «Хостинг»).
 #
-# ЗАМЕНИТЕ https://ВАШ-БЭКЕНД.onrender.com на адрес, где запущен `python run.py`.
+# Бэкенд (`python run.py`) работает на Render: https://tazakaspiy-t8cj.onrender.com
 
 [build]
   publish = "public"
@@ -10,12 +10,12 @@
 # Запросы к API и фото проксируются на бэкенд — фронтенд при этом не меняется
 [[redirects]]
   from = "/api/*"
-  to = "https://ВАШ-БЭКЕНД.onrender.com/api/:splat"
+  to = "https://tazakaspiy-t8cj.onrender.com/api/:splat"
   status = 200
   force = true
 
 [[redirects]]
   from = "/uploads/*"
-  to = "https://ВАШ-БЭКЕНД.onrender.com/uploads/:splat"
+  to = "https://tazakaspiy-t8cj.onrender.com/uploads/:splat"
   status = 200
   force = true
