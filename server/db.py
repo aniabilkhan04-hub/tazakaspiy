@@ -219,6 +219,25 @@ def reject_report(report_id):
     return result
 
 
+def delete_report(report_id):
+    """Полностью удаляет заявку (и фото). Для одобренной «Я убрал мусор» откатывает рейтинг автора."""
+    conn = get_conn()
+    try:
+        report = conn.execute('SELECT * FROM reports WHERE id = ?', (report_id,)).fetchone()
+        if report is None:
+            return 'not_found'
+        conn.execute('DELETE FROM reports WHERE id = ?', (report_id,))
+        if report['status'] == 'approved' and report['type'] == 'cleaned' and report['user_id']:
+            conn.execute(
+                'UPDATE users SET rating = MAX(rating - 1, 0) WHERE id = ?', (report['user_id'],)
+            )
+        conn.commit()
+    finally:
+        conn.close()
+    delete_upload(report['photo_path'])
+    return 'ok'
+
+
 def get_leaderboard():
     conn = get_conn()
     try:

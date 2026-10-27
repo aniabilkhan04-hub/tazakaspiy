@@ -12,6 +12,7 @@ from db import (
     get_pending_reports,
     approve_report,
     reject_report,
+    delete_report,
     get_leaderboard,
 )
 
@@ -112,6 +113,22 @@ def api_admin_pending():
     if denied:
         return denied
     return jsonify(get_pending_reports())
+
+
+@app.route('/api/admin/approved')
+def api_admin_approved():
+    denied = check_admin()
+    if denied:
+        return denied
+    return jsonify(get_approved_reports())
+
+
+@app.route('/api/admin/reports/<int:report_id>', methods=['DELETE'])
+def api_admin_delete(report_id):
+    denied = check_admin()
+    if denied:
+        return denied
+    return moderation_response(delete_report(report_id))
 
 
 @app.route('/api/admin/reports/<int:report_id>/approve', methods=['POST'])

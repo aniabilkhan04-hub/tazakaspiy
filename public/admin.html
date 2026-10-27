@@ -41,8 +41,12 @@
 
   <section id="pending-section" class="pending-section" hidden>
     <div class="pending-header">
-      <h2>Заявки на модерации</h2>
-      <button id="refresh-btn" class="btn btn--ghost">Обновить</button>
+      <h2 id="section-title">Заявки на модерации</h2>
+      <div>
+        <button id="tab-pending" class="btn btn--primary" type="button">На модерации</button>
+        <button id="tab-approved" class="btn btn--ghost" type="button">Одобренные (на карте)</button>
+        <button id="refresh-btn" class="btn btn--ghost" type="button">Обновить</button>
+      </div>
     </div>
     <p id="admin-error" class="error-text"></p>
     <div id="pending-list" class="pending-list"></div>

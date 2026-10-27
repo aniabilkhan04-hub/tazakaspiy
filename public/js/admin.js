@@ -66,9 +66,15 @@ async function tryLogin(pw) {
   return true;
 }
 
+// 'pending' — заявки на модерации, 'approved' — одобренные точки на карте (их можно удалить)
+let mode = 'pending';
+
 function renderPending(rows) {
   if (!rows.length) {
-    pendingList.innerHTML = '<div class="pending-empty">Новых заявок нет 🎉</div>';
+    pendingList.innerHTML =
+      mode === 'approved'
+        ? '<div class="pending-empty">Одобренных точек пока нет</div>'
+        : '<div class="pending-empty">Новых заявок нет 🎉</div>';
     return;
   }
   pendingList.innerHTML = rows
@@ -85,8 +91,12 @@ function renderPending(rows) {
             <div class="pending-card__meta">${author} · ${date}</div>
           </div>
           <div class="pending-card__actions">
-            <button class="btn btn--approve" data-action="approve" data-id="${r.id}">Одобрить</button>
-            <button class="btn btn--reject" data-action="reject" data-id="${r.id}">Отклонить</button>
+            ${
+              mode === 'approved'
+                ? `<button class="btn btn--reject" data-action="delete" data-id="${r.id}">Удалить</button>`
+                : `<button class="btn btn--approve" data-action="approve" data-id="${r.id}">Одобрить</button>
+                   <button class="btn btn--reject" data-action="reject" data-id="${r.id}">Отклонить</button>`
+            }
           </div>
         </div>`;
     })
@@ -96,7 +106,7 @@ function renderPending(rows) {
 async function loadPending() {
   let res;
   try {
-    res = await adminFetch('/api/admin/pending');
+    res = await adminFetch(`/api/admin/${mode}`);
   } catch {
     showAdminError('Нет связи с сервером');
     return;
@@ -118,12 +128,16 @@ pendingList.addEventListener('click', async (e) => {
   const btn = e.target.closest('button[data-action]');
   if (!btn) return;
   const { action, id } = btn.dataset;
+  if (action === 'delete' && !confirm('Удалить точку с карты безвозвратно?')) return;
   // блокируем обе кнопки карточки, чтобы нельзя было нажать «Одобрить» дважды
   btn.closest('.pending-card')
     .querySelectorAll('button')
     .forEach((b) => (b.disabled = true));
   try {
-    const res = await adminFetch(`/api/admin/reports/${id}/${action}`, { method: 'POST' });
+    const res =
+      action === 'delete'
+        ? await adminFetch(`/api/admin/reports/${id}`, { method: 'DELETE' })
+        : await adminFetch(`/api/admin/reports/${id}/${action}`, { method: 'POST' });
     if (!res.ok) showAdminError(await errorText(res));
     else showAdminError('');
   } catch {
@@ -146,6 +160,21 @@ passwordInput.addEventListener('keydown', (e) => {
 });
 
 refreshBtn.addEventListener('click', loadPending);
+
+const tabPending = document.getElementById('tab-pending');
+const tabApproved = document.getElementById('tab-approved');
+const sectionTitle = document.getElementById('section-title');
+
+function setMode(newMode) {
+  mode = newMode;
+  tabPending.className = `btn ${mode === 'pending' ? 'btn--primary' : 'btn--ghost'}`;
+  tabApproved.className = `btn ${mode === 'approved' ? 'btn--primary' : 'btn--ghost'}`;
+  sectionTitle.textContent = mode === 'pending' ? 'Заявки на модерации' : 'Одобренные точки на карте';
+  loadPending();
+}
+
+tabPending.addEventListener('click', () => setMode('pending'));
+tabApproved.addEventListener('click', () => setMode('approved'));
 
 // автоматический вход, если пароль сохранён в этой сессии браузера
 if (password) tryLogin(password);
