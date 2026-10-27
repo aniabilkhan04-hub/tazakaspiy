@@ -27,6 +27,19 @@
   margin-bottom: 16px;
 }
 .pending-header h2 { font-size: 20px; }
+.pending-header__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* На светлом фоне «призрачная» кнопка из шапки (белая) не видна — делаем её тёмной */
+.admin-layout .btn--ghost {
+  background: var(--surface);
+  color: var(--primary-dark);
+  border-color: var(--line);
+}
+.admin-layout .btn--ghost:hover { background: #F3EEDF; }
+
+@media (max-width: 640px) {
+  .pending-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
 
 .pending-list { display: flex; flex-direction: column; gap: 14px; }
 
